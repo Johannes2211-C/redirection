@@ -1,62 +1,56 @@
-/* TechLux : carte de partage (Open Graph) pour la landing DualSense Spider-Man 2. Agit seulement sur la page dont l'adresse (slug) est landing-dualsense-spiderman2. Image : envoyez og-dualsense-spiderman2.jpg dans la Mediatheque sans la renommer. */
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manette DualSense PS5 Marvel's Spider-Man 2 | TechLux</title>
+    
+    <!-- ========================================== -->
+    <!-- BALISES META DE BASE -->
+    <!-- ========================================== -->
+    <meta name="description" content="Manette sans fil DualSense PS5, design rouge et noir Marvel's Spider-Man 2. 150 €, livraison gratuite, garantie 1 an." />
 
-add_filter( 'pre_get_document_title', function ( $title ) {
-	if ( is_page( 'landing-dualsense-spiderman2' ) ) {
-		return "Manette DualSense PS5 Marvel's Spider-Man 2 | TechLux";
-	}
-	return $title;
-}, 99 );
+    <!-- ========================================== -->
+    <!-- BALISES OPEN GRAPH (WhatsApp, Telegram, Facebook) -->
+    <!-- ========================================== -->
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:type" content="product" />
+    <meta property="og:site_name" content="TechLux" />
+    <meta property="og:title" content="Manette DualSense PS5 Marvel's Spider-Man 2 | TechLux" />
+    <meta property="og:description" content="Manette sans fil DualSense PS5, design rouge et noir Marvel's Spider-Man 2. 150 €, livraison gratuite, garantie 1 an." />
+    <!-- Lien exact de votre page GitHub Pages -->
+    <meta property="og:url" content="https://johannes2211-c.github.io/rediriger/" />
+    
+    <!-- Prix du produit -->
+    <meta property="product:price:amount" content="150" />
+    <meta property="product:price:currency" content="EUR" />
 
-add_action( 'wp_head', function () {
-	if ( ! is_page( 'landing-dualsense-spiderman2' ) ) {
-		return;
-	}
+    <!-- Image de partage : remplacez l'URL par le lien direct de l'image og-dualsense-spiderman2.jpg hébergée dans votre médiathèque WordPress -->
+    <meta property="og:image" content="https://votre-site.infinityfreeapp.com/wp-content/uploads/og-dualsense-spiderman2.jpg" />
+    <meta property="og:image:secure_url" content="https://votre-site.infinityfreeapp.com/wp-content/uploads/og-dualsense-spiderman2.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Manette DualSense PS5 Marvel's Spider-Man 2, rouge et noire, sur fond sombre éclairé de rouge" />
 
-	$title = "Manette DualSense PS5 Marvel's Spider-Man 2 | TechLux";
-	$desc  = "Manette sans fil DualSense PS5, design rouge et noir Marvel's Spider-Man 2. 150 €, livraison gratuite, garantie 1 an.";
-	$alt   = "Manette DualSense PS5 Marvel's Spider-Man 2, rouge et noire, sur fond sombre éclairé de rouge";
-	$url   = set_url_scheme( get_permalink(), 'https' );
+    <!-- ========================================== -->
+    <!-- TWITTER CARDS -->
+    <!-- ========================================== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Manette DualSense PS5 Marvel's Spider-Man 2 | TechLux" />
+    <meta name="twitter:description" content="Manette sans fil DualSense PS5, design rouge et noir Marvel's Spider-Man 2. 150 €, livraison gratuite, garantie 1 an." />
+    <meta name="twitter:image" content="https://votre-site.infinityfreeapp.com/wp-content/uploads/og-dualsense-spiderman2.jpg" />
 
-	/* Image de partage : adresse absolue en https, lue dans la Mediatheque */
-	$img   = '';
-	$found = get_posts( array(
-		'post_type'      => 'attachment',
-		'post_status'    => 'inherit',
-		'name'           => 'og-dualsense-spiderman2',
-		'posts_per_page' => 1,
-		'fields'         => 'ids',
-	) );
-	if ( $found ) {
-		$img = set_url_scheme( (string) wp_get_attachment_url( $found[0] ), 'https' );
-	}
-
-	/* Ecrit une balise meta (les signes \x3c et \x3e sont les symboles ouvrant et fermant d'une balise) */
-	$m = function ( $kind, $name, $value ) {
-		echo "\x3cmeta " . $kind . '="' . esc_attr( $name ) . '" content="' . esc_attr( $value ) . '"' . "\x3e\n";
-	};
-
-	$m( 'name', 'description', $desc );
-	$m( 'property', 'og:locale', 'fr_FR' );
-	$m( 'property', 'og:type', 'product' );
-	$m( 'property', 'og:site_name', 'TechLux' );
-	$m( 'property', 'og:title', $title );
-	$m( 'property', 'og:description', $desc );
-	$m( 'property', 'og:url', $url );
-	$m( 'property', 'product:price:amount', '150' );
-	$m( 'property', 'product:price:currency', 'EUR' );
-	$m( 'name', 'twitter:title', $title );
-	$m( 'name', 'twitter:description', $desc );
-
-	if ( $img ) {
-		$m( 'property', 'og:image', esc_url_raw( $img ) );
-		$m( 'property', 'og:image:secure_url', esc_url_raw( $img ) );
-		$m( 'property', 'og:image:type', 'image/jpeg' );
-		$m( 'property', 'og:image:width', '1200' );
-		$m( 'property', 'og:image:height', '630' );
-		$m( 'property', 'og:image:alt', $alt );
-		$m( 'name', 'twitter:card', 'summary_large_image' );
-		$m( 'name', 'twitter:image', esc_url_raw( $img ) );
-	} else {
-		$m( 'name', 'twitter:card', 'summary' );
-	}
-}, 1 );
+    <!-- ========================================== -->
+    <!-- REDIRECTION VERS VOTRE LANDING PAGE INFINITYFREE -->
+    <!-- ========================================== -->
+    <meta http-equiv="refresh" content="0;url=https://votre-site.infinityfreeapp.com/landing-dualsense-spiderman2/" />
+    <script>
+        window.location.replace("https://votre-site.infinityfreeapp.com/landing-dualsense-spiderman2/");
+    </script>
+</head>
+<body style="background: #0f172a; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; text-align: center; padding-top: 100px;">
+    <h2>Redirection vers l'offre TechLux...</h2>
+    <p>Si la page ne s'ouvre pas automatiquement, <a href="https://votre-site.infinityfreeapp.com/landing-dualsense-spiderman2/" style="color: #38bdf8; text-decoration: underline;">cliquez ici pour accéder à l'offre</a>.</p>
+</body>
+</html>
