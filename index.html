@@ -1,0 +1,62 @@
+/* TechLux : carte de partage (Open Graph) pour la landing DualSense Spider-Man 2. Agit seulement sur la page dont l'adresse (slug) est landing-dualsense-spiderman2. Image : envoyez og-dualsense-spiderman2.jpg dans la Mediatheque sans la renommer. */
+
+add_filter( 'pre_get_document_title', function ( $title ) {
+	if ( is_page( 'landing-dualsense-spiderman2' ) ) {
+		return "Manette DualSense PS5 Marvel's Spider-Man 2 | TechLux";
+	}
+	return $title;
+}, 99 );
+
+add_action( 'wp_head', function () {
+	if ( ! is_page( 'landing-dualsense-spiderman2' ) ) {
+		return;
+	}
+
+	$title = "Manette DualSense PS5 Marvel's Spider-Man 2 | TechLux";
+	$desc  = "Manette sans fil DualSense PS5, design rouge et noir Marvel's Spider-Man 2. 150 €, livraison gratuite, garantie 1 an.";
+	$alt   = "Manette DualSense PS5 Marvel's Spider-Man 2, rouge et noire, sur fond sombre éclairé de rouge";
+	$url   = set_url_scheme( get_permalink(), 'https' );
+
+	/* Image de partage : adresse absolue en https, lue dans la Mediatheque */
+	$img   = '';
+	$found = get_posts( array(
+		'post_type'      => 'attachment',
+		'post_status'    => 'inherit',
+		'name'           => 'og-dualsense-spiderman2',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+	) );
+	if ( $found ) {
+		$img = set_url_scheme( (string) wp_get_attachment_url( $found[0] ), 'https' );
+	}
+
+	/* Ecrit une balise meta (les signes \x3c et \x3e sont les symboles ouvrant et fermant d'une balise) */
+	$m = function ( $kind, $name, $value ) {
+		echo "\x3cmeta " . $kind . '="' . esc_attr( $name ) . '" content="' . esc_attr( $value ) . '"' . "\x3e\n";
+	};
+
+	$m( 'name', 'description', $desc );
+	$m( 'property', 'og:locale', 'fr_FR' );
+	$m( 'property', 'og:type', 'product' );
+	$m( 'property', 'og:site_name', 'TechLux' );
+	$m( 'property', 'og:title', $title );
+	$m( 'property', 'og:description', $desc );
+	$m( 'property', 'og:url', $url );
+	$m( 'property', 'product:price:amount', '150' );
+	$m( 'property', 'product:price:currency', 'EUR' );
+	$m( 'name', 'twitter:title', $title );
+	$m( 'name', 'twitter:description', $desc );
+
+	if ( $img ) {
+		$m( 'property', 'og:image', esc_url_raw( $img ) );
+		$m( 'property', 'og:image:secure_url', esc_url_raw( $img ) );
+		$m( 'property', 'og:image:type', 'image/jpeg' );
+		$m( 'property', 'og:image:width', '1200' );
+		$m( 'property', 'og:image:height', '630' );
+		$m( 'property', 'og:image:alt', $alt );
+		$m( 'name', 'twitter:card', 'summary_large_image' );
+		$m( 'name', 'twitter:image', esc_url_raw( $img ) );
+	} else {
+		$m( 'name', 'twitter:card', 'summary' );
+	}
+}, 1 );
